@@ -1,5 +1,33 @@
-<h1>Home#index</h1>
+<script type="application/json" id="kits-data">
+  <%= raw @kits_json %>
+</script>
+
+<h1 class="text-2xl font-bold mb-4">持ち物リスト</h1>
 
 <script type="application/json" id="kits-data">
   <%= raw @kits_json %>
 </script>
+
+<% @grouped.each do |category, kits| %>
+  <section class="mb-4">
+    <h2 class="text-sm text-gray-500 mb-2"><%= @labels[category] || category %></h2>
+    <div class="flex flex-wrap gap-2">
+      <% kits.each do |kit| %>
+        <button type="button"
+                class="chip px-3 py-1 rounded-full border border-gray-300 text-sm"
+                data-kit-id="<%= kit.id %>">
+          <%= kit.name %>
+        </button>
+      <% end %>
+    </div>
+  </section>
+<% end %>
+
+<hr class="my-6">
+
+<section>
+  <h2 class="text-lg font-bold mb-2">持ち物 <span id="count">0</span>件</h2>
+  <ul id="item-list" class="space-y-1"></ul>
+</section>
+
+
