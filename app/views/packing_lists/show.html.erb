@@ -1,4 +1,28 @@
 <div class="max-w-2xl mx-auto px-4 py-6">
+  <p class="text-sm text-gray-500 mb-2">
+    <%= link_to "← リスト一覧", packing_lists_path, class: "underline" %>
+  </p>
+
   <h1 class="text-2xl font-bold"><%= @packing_list.name %></h1>
-  <p><%= @packing_list.list_items.count %>件</p>
+  <p class="text-sm text-gray-500 mb-4">
+    <%= @packing_list.event_date&.strftime("%Y年%m月%d日") %>
+    / <%= @packing_list.list_items.count %>件
+  </p>
+
+  <ul class="space-y-2">
+    <% @packing_list.list_items.each do |item| %>
+      <li class="flex items-center gap-2">
+        <%= check_box_tag "checked_#{item.id}", "1", item.is_checked,
+              data: { item_id: item.id }, class: "item-check" %>
+        <span class="<%= 'line-through text-gray-400' if item.is_checked %>">
+          <%= item.item_name %>
+        </span>
+        <% item.source_labels.to_s.split(",").each do |label| %>
+          <span class="px-1.5 py-0.5 text-xs rounded bg-gray-100 text-gray-600">
+            <%= label %>
+          </span>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
 </div>
