@@ -14,4 +14,9 @@ class PackingList < ApplicationRecord
   def completed?
     total_count > 0 && checked_count == total_count
   end
+
+  def upcoming?
+    return false if event_date.blank?
+    event_date >= Date.current && event_date <= 3.days.from_now.to_date
+  end
 end

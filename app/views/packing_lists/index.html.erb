@@ -15,8 +15,13 @@
             </span>
           </div>
           <% if list.event_date %>
-            <p class="text-sm text-gray-500 mt-1">
-              <%= list.event_date.strftime("%Y年%m月%d日") %>
+            <p class="text-sm text-gray-500 mt-1 flex items-center gap-2">
+              <span><%= list.event_date.strftime("%Y年%m月%d日") %></span>
+              <% if list.upcoming? && !list.completed? %>
+                <span class="text-xs bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded">
+                  まもなく
+                </span>
+              <% end %>
             </p>
           <% end %>
         </li>
