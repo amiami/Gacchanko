@@ -30,6 +30,24 @@
     <ul id="item-list" class="space-y-2"></ul>
   </section>
 
+  <%= form_with model: @packing_list, id: "save-form", class: "mt-6" do |f| %>
+    <div class="flex gap-2 items-end">
+      <div>
+        <label class="block text-sm text-gray-500">リスト名</label>
+        <%= f.text_field :name, required: true,
+              class: "border border-gray-300 rounded px-2 py-1" %>
+      </div>
+      <div>
+        <label class="block text-sm text-gray-500">予定日</label>
+        <%= f.date_field :event_date,
+              class: "border border-gray-300 rounded px-2 py-1" %>
+      </div>
+      <%= f.submit "このリストを保存",
+            class: "bg-blue-600 text-white rounded px-4 py-2 cursor-pointer" %>
+    </div>
+    <%= hidden_field_tag "packing_list[items_json]", nil, id: "items-json" %>
+  <% end %>
+
   <script>
     const kits = JSON.parse(document.getElementById('kits-data').textContent);
     const kitById = new Map(kits.map(k => [k.id, k]));

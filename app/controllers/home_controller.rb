@@ -14,5 +14,6 @@ class HomeController < ApplicationController
     @kits_json = @kits.map { |k|
       { id: k.id, name: k.name, items: k.kit_items.map(&:item_name) }
     }.to_json
+    @packing_list = PackingList.new
   end
 end
