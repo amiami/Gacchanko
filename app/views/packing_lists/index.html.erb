@@ -1,18 +1,24 @@
-<%# app/views/packing_lists/index.html.erb %>
 <div class="max-w-2xl mx-auto px-4 py-6">
   <h1 class="text-2xl font-bold mb-4">保存したリスト</h1>
 
   <% if @packing_lists.empty? %>
     <p class="text-gray-500">まだリストがありません。</p>
   <% else %>
-    <ul class="space-y-2">
+    <ul class="space-y-3">
       <% @packing_lists.each do |list| %>
-        <li>
-          <%= link_to list.name, list, class: "text-blue-600 underline" %>
-          <span class="text-sm text-gray-500">
-            <%= list.event_date&.strftime("%m/%d") %>
-            / <%= list.list_items.count %>件
-          </span>
+        <li class="border border-gray-200 rounded p-3">
+          <div class="flex items-center justify-between">
+            <%= link_to list.name, list, class: "font-bold text-blue-600 underline" %>
+            <span class="text-sm <%= list.completed? ? 'text-green-700' : 'text-gray-500' %>">
+              <%= list.checked_count %>/<%= list.total_count %>
+              <%= "完了" if list.completed? %>
+            </span>
+          </div>
+          <% if list.event_date %>
+            <p class="text-sm text-gray-500 mt-1">
+              <%= list.event_date.strftime("%Y年%m月%d日") %>
+            </p>
+          <% end %>
         </li>
       <% end %>
     </ul>

@@ -2,7 +2,7 @@
   <h1 class="text-2xl font-bold"><%= @packing_list.name %></h1>
   <p class="text-sm text-gray-500 mb-4">
     <%= @packing_list.event_date&.strftime("%Y年%m月%d日") %>
-    / <%= @packing_list.list_items.count %>件
+    / <span id="progress"><%= @packing_list.checked_count %></span>/<%= @packing_list.total_count %>
   </p>
 
   <ul class="space-y-2">
@@ -24,7 +24,15 @@
 </div>
 
 <script>
-  document.querySelectorAll('.item-check').forEach(cb => {
+  const checkboxes = document.querySelectorAll('.item-check');
+  const progress = document.getElementById('progress');
+
+  function updateProgress() {
+    const n = [...checkboxes].filter(c => c.checked).length;
+    progress.textContent = n;
+  }
+  
+  checkboxes.forEach(cb => {
     cb.addEventListener('change', async () => {
       const id = cb.dataset.itemId;
       const label = cb.parentElement.querySelector('span');
@@ -32,6 +40,8 @@
 
       label.classList.toggle('line-through', checked);
       label.classList.toggle('text-gray-400', checked);
+
+      updateProgress();
 
       const res = await fetch(`/list_items/${id}`, {
         method: 'PATCH',
@@ -47,6 +57,7 @@
         cb.checked = !checked;
         label.classList.toggle('line-through', !checked);
         label.classList.toggle('text-gray-400', !checked);
+        updateProgress();    // ← 失敗時も戻す
       }
     });
   });
