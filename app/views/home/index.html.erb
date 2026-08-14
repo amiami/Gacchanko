@@ -123,6 +123,17 @@
     });
 
     render();
+
+    document.getElementById('save-form').addEventListener('submit', () => {
+      const map = compose();
+      const payload = [];
+      for (const [name, sources] of map) {
+        if (excluded.has(name)) continue;
+        payload.push({ item_name: name, source_labels: sources.join(",") });
+      }
+      const json = JSON.stringify(payload);
+      document.getElementById('items-json').value = json;
+    });
   </script>
 </div>
 
