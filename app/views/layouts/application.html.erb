@@ -24,6 +24,13 @@
   </head>
 
   <body>
+    <% if notice %>
+      <p class="max-w-2xl mx-auto px-4 pt-4 text-green-700"><%= notice %></p>
+    <% end %>
+    <% if alert %>
+      <p class="max-w-2xl mx-auto px-4 pt-4 text-red-700"><%= alert %></p>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>
