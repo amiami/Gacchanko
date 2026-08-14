@@ -6,4 +6,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "home#index"
+  resources :packing_lists, only: [:index, :show, :create]
+  resources :list_items, only: [:update]
 end
