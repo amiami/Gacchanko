@@ -2,82 +2,85 @@
   <%= raw @kits_json %>
 </script>
 
-<h1 class="text-2xl font-bold mb-4">持ち物リスト</h1>
+<div class="max-w-2xl mx-auto px-4 py-6">
+  <h1 class="text-2xl font-bold mb-4">持ちものリスト</h1>
+  <script type="application/json" id="kits-data">
+    <%= raw @kits_json %>
+  </script>
 
-<script type="application/json" id="kits-data">
-  <%= raw @kits_json %>
-</script>
+  <% @grouped.each do |category, kits| %>
+    <section class="mb-4">
+      <h2 class="text-sm text-gray-500 mb-2"><%= @labels[category] || category %></h2>
+      <div class="flex flex-wrap gap-2">
+        <% kits.each do |kit| %>
+          <button type="button"
+                  class="chip px-3 py-1 rounded-full border border-gray-300 text-sm"
+                  data-kit-id="<%= kit.id %>">
+            <%= kit.name %>
+          </button>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
 
-<% @grouped.each do |category, kits| %>
-  <section class="mb-4">
-    <h2 class="text-sm text-gray-500 mb-2"><%= @labels[category] || category %></h2>
-    <div class="flex flex-wrap gap-2">
-      <% kits.each do |kit| %>
-        <button type="button"
-                class="chip px-3 py-1 rounded-full border border-gray-300 text-sm"
-                data-kit-id="<%= kit.id %>">
-          <%= kit.name %>
-        </button>
-      <% end %>
-    </div>
+  <hr class="my-6">
+
+  <section>
+    <h2 class="text-lg font-bold mb-3">持ちもの <span id="count">0</span>件</h2>
+    <ul id="item-list" class="space-y-2"></ul>
   </section>
-<% end %>
 
-<hr class="my-6">
+  <script>
+    const kits = JSON.parse(document.getElementById('kits-data').textContent);
+    const kitById = new Map(kits.map(k => [k.id, k]));
+    const selected = new Set();
 
-<section>
-  <h2 class="text-lg font-bold mb-2">持ち物 <span id="count">0</span>件</h2>
-  <ul id="item-list" class="space-y-1"></ul>
-</section>
-
-<script>
-  const kits = JSON.parse(document.getElementById('kits-data').textContent);
-  const kitById = new Map(kits.map(k => [k.id, k]));
-  const selected = new Set();
-
-  function compose() {
-    const map = new Map();
-    for (const id of selected) {
-      const kit = kitById.get(id);
-      for (const name of kit.items) {
-        if (!map.has(name)) map.set(name, []);
-        map.get(name).push(kit.name);
+    function compose() {
+      const map = new Map();
+      for (const id of selected) {
+        const kit = kitById.get(id);
+        for (const name of kit.items) {
+          if (!map.has(name)) map.set(name, []);
+          map.get(name).push(kit.name);
+        }
       }
+      return map;
     }
-    return map;
-  }
 
-  function render() {
-    const map = compose();
-    const ul = document.getElementById('item-list');
-    ul.innerHTML = '';
-    for (const [name, sources] of map) {
-      const li = document.createElement('li');
-      li.className = 'flex items-center gap-2';
-      const label = document.createElement('span');
-      label.textContent = name;
-      li.appendChild(label);
-      for (const s of sources) {
-        const tag = document.createElement('span');
-        tag.className = 'px-1.5 py-0.5 text-xs rounded bg-gray-100 text-gray-600';
-        tag.textContent = s;
-        li.appendChild(tag);
+    function render() {
+      const map = compose();
+      const ul = document.getElementById('item-list');
+      ul.innerHTML = '';
+      for (const [name, sources] of map) {
+        const li = document.createElement('li');
+        li.className = 'flex items-center gap-2';
+        const label = document.createElement('span');
+        label.textContent = name;
+        li.appendChild(label);
+        for (const s of sources) {
+          const tag = document.createElement('span');
+          tag.className = 'px-1.5 py-0.5 text-xs rounded bg-gray-100 text-gray-600';
+          tag.textContent = s;
+          li.appendChild(tag);
+        }
+        ul.appendChild(li);
       }
-      ul.appendChild(li);
+      document.getElementById('count').textContent = map.size;
     }
-    document.getElementById('count').textContent = map.size;
-  }
 
-  document.querySelectorAll('.chip').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = Number(btn.dataset.kitId);
-      const wasOn = selected.has(id);
-      wasOn ? selected.delete(id) : selected.add(id);
-      btn.classList.toggle('bg-blue-600', !wasOn);
-      btn.classList.toggle('text-white', !wasOn);
-      render();
+    document.querySelectorAll('.chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = Number(btn.dataset.kitId);
+        const wasOn = selected.has(id);
+        wasOn ? selected.delete(id) : selected.add(id);
+        btn.classList.toggle('bg-blue-600', !wasOn);
+        btn.classList.toggle('text-white', !wasOn);
+        render();
+      });
     });
-  });
 
-  render();
-</script>
+    render();
+  </script>
+</div>
+
+
