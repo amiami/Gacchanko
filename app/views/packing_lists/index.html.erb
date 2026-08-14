@@ -1,0 +1,24 @@
+<%# app/views/packing_lists/index.html.erb %>
+<div class="max-w-2xl mx-auto px-4 py-6">
+  <p class="text-sm text-gray-500 mb-2">
+    <%= link_to "← リストを作る", root_path, class: "underline" %>
+  </p>
+
+  <h1 class="text-2xl font-bold mb-4">保存したリスト</h1>
+
+  <% if @packing_lists.empty? %>
+    <p class="text-gray-500">まだリストがありません。</p>
+  <% else %>
+    <ul class="space-y-2">
+      <% @packing_lists.each do |list| %>
+        <li>
+          <%= link_to list.name, list, class: "text-blue-600 underline" %>
+          <span class="text-sm text-gray-500">
+            <%= list.event_date&.strftime("%m/%d") %>
+            / <%= list.list_items.count %>件
+          </span>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>
