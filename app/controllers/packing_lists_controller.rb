@@ -1,7 +1,7 @@
 class PackingListsController < ApplicationController
   def index
-    @packing_lists = PackingList.order(created_at: :desc)
-  end
+  @packing_lists = PackingList.includes(:list_items).order(created_at: :desc)
+end
 
   def show
     @packing_list = PackingList.includes(:list_items).find(params[:id])
