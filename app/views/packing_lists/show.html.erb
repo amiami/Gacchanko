@@ -22,3 +22,32 @@
     <% end %>
   </ul>
 </div>
+
+<script>
+  document.querySelectorAll('.item-check').forEach(cb => {
+    cb.addEventListener('change', async () => {
+      const id = cb.dataset.itemId;
+      const label = cb.parentElement.querySelector('span');
+      const checked = cb.checked;
+
+      label.classList.toggle('line-through', checked);
+      label.classList.toggle('text-gray-400', checked);
+
+      const res = await fetch(`/list_items/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({ is_checked: checked })
+      });
+
+      if (!res.ok) {
+        alert('保存に失敗しました');
+        cb.checked = !checked;
+        label.classList.toggle('line-through', !checked);
+        label.classList.toggle('text-gray-400', !checked);
+      }
+    });
+  });
+</script>
