@@ -47,6 +47,14 @@
       return map;
     }
 
+    const excluded = new Set();   // 除外されたアイテム名
+
+    function updateCount() {
+      const map = compose();
+      const n = [...map.keys()].filter(name => !excluded.has(name)).length;
+      document.getElementById('count').textContent = n;
+    }
+
     function render() {
       const map = compose();
       const ul = document.getElementById('item-list');
@@ -54,9 +62,26 @@
       for (const [name, sources] of map) {
         const li = document.createElement('li');
         li.className = 'flex items-center gap-2';
+
         const label = document.createElement('span');
         label.textContent = name;
+        if (excluded.has(name)) {
+          label.classList.add('line-through', 'text-gray-400');
+        }
+
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.checked = !excluded.has(name);
+        cb.addEventListener('change', () => {
+          excluded.has(name) ? excluded.delete(name) : excluded.add(name);
+          label.classList.toggle('line-through', excluded.has(name));
+          label.classList.toggle('text-gray-400', excluded.has(name));
+          updateCount();
+        });
+
+        li.appendChild(cb);
         li.appendChild(label);
+
         for (const s of sources) {
           const tag = document.createElement('span');
           tag.className = 'px-1.5 py-0.5 text-xs rounded bg-gray-100 text-gray-600';
@@ -65,7 +90,7 @@
         }
         ul.appendChild(li);
       }
-      document.getElementById('count').textContent = map.size;
+      updateCount();
     }
 
     document.querySelectorAll('.chip').forEach(btn => {
