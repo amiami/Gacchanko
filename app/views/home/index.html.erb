@@ -55,7 +55,8 @@
       <ul id="item-list" class="space-y-2"></ul>
     </section>
 
-    <%= form_with model: @packing_list, id: "save-form", class: "mt-6" do |f| %>
+    <%= form_with model: @packing_list, id: "save-form",
+        class: "mt-6 pt-4 border-t border-gray-200" do |f| %>
       <div class="flex gap-2 items-end">
         <div>
           <label class="block text-sm text-gray-500">リスト名</label>
@@ -63,7 +64,7 @@
                 class: "border border-gray-300 rounded px-2 py-1" %>
         </div>
         <div>
-          <label class="block text-sm text-gray-500">予定日</label>
+          <label class="block text-sm text-gray-500">イベント日</label>
           <%= f.date_field :event_date,
                 class: "border border-gray-300 rounded px-2 py-1" %>
         </div>
@@ -105,6 +106,14 @@
         const map = compose();
         const ul = document.getElementById('item-list');
         ul.innerHTML = '';
+
+        if (map.size === 0) {
+          ul.innerHTML = '<li class="text-gray-400 text-sm py-8 text-center">上のキットを選んでください</li>';
+          prevNames = new Set();
+          updateCount();
+          return;
+        }
+
         for (const [name, sources] of map) {
           const li = document.createElement('li');
           li.className = 'flex items-center gap-2 py-0.5';
@@ -140,6 +149,7 @@
           }
           ul.appendChild(li);
         }
+        prevNames = new Set(map.keys());
         updateCount();
       }
 
