@@ -2,6 +2,10 @@
   <%= raw @kits_json %>
 </script>
 <style>
+  .chip.is-selected:hover {
+    background-color: #1d4ed8;   /* blue-700 */
+    border-color: #1d4ed8;
+  }
   @keyframes slideIn {
     from { opacity: 0; transform: translateX(-8px); background: #dbeafe; }
     to   { opacity: 1; transform: translateX(0); background: transparent; }
@@ -24,8 +28,9 @@
       <div class="flex flex-wrap gap-2">
         <% kits.each do |kit| %>
           <button type="button"
-                  class="chip px-3 py-1.5 rounded-full border-2 border-gray-300 text-sm
-                        hover:border-blue-400 hover:bg-blue-50 transition-colors"
+                  class="chip px-3 py-1.5 rounded-full border-2 border-gray-300 text-sm transition-colors
+                        hover:border-blue-400 hover:bg-blue-50
+                        [&.is-selected]:hover:bg-blue-700 [&.is-selected]:hover:border-blue-700"
                   data-kit-id="<%= kit.id %>">
             <%= kit.name %>
           </button>
@@ -135,6 +140,7 @@
         const wasOn = selected.has(id);
         wasOn ? selected.delete(id) : selected.add(id);
 
+        btn.classList.toggle('is-selected', !wasOn);
         btn.classList.toggle('bg-blue-600', !wasOn);
         btn.classList.toggle('text-white', !wasOn);
         btn.classList.toggle('border-blue-600', !wasOn);
