@@ -24,7 +24,8 @@
       <div class="flex flex-wrap gap-2">
         <% kits.each do |kit| %>
           <button type="button"
-                  class="chip px-3 py-1 rounded-full border border-gray-300 text-sm"
+                  class="chip px-3 py-1.5 rounded-full border-2 border-gray-300 text-sm
+                        hover:border-blue-400 hover:bg-blue-50 transition-colors"
                   data-kit-id="<%= kit.id %>">
             <%= kit.name %>
           </button>
@@ -133,8 +134,11 @@
         const id = Number(btn.dataset.kitId);
         const wasOn = selected.has(id);
         wasOn ? selected.delete(id) : selected.add(id);
+
         btn.classList.toggle('bg-blue-600', !wasOn);
         btn.classList.toggle('text-white', !wasOn);
+        btn.classList.toggle('border-blue-600', !wasOn);
+        btn.textContent = (!wasOn ? '✓ ' : '') + kitById.get(id).name;
         render();
       });
     });
