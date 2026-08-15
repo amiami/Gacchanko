@@ -1,6 +1,6 @@
 # app/models/packing_list.rb
 class PackingList < ApplicationRecord
-  has_many :list_items, dependent: :destroy
+  has_many :list_items, -> { order(:is_checked, :id) }, dependent: :destroy
   validates :name, presence: true
 
   def checked_count
