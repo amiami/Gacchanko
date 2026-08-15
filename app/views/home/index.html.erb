@@ -1,6 +1,13 @@
 <script type="application/json" id="kits-data">
   <%= raw @kits_json %>
 </script>
+<style>
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-8px); background: #dbeafe; }
+    to   { opacity: 1; transform: translateX(0); background: transparent; }
+  }
+  .animate-item { animation: slideIn 0.35s ease-out; }
+</style>
 
 <div class="max-w-2xl mx-auto px-4 py-6">
   <h1 class="text-xl font-bold mb-1">今回はどんな外出？</h1>
@@ -55,6 +62,7 @@
     const kits = JSON.parse(document.getElementById('kits-data').textContent);
     const kitById = new Map(kits.map(k => [k.id, k]));
     const selected = new Set();
+    
 
     function compose() {
       const map = new Map();
@@ -76,13 +84,19 @@
       document.getElementById('count').textContent = n;
     }
 
+    let prevNames = new Set();
+
     function render() {
       const map = compose();
       const ul = document.getElementById('item-list');
       ul.innerHTML = '';
       for (const [name, sources] of map) {
         const li = document.createElement('li');
-        li.className = 'flex items-center gap-2';
+        li.className = 'flex items-center gap-2 py-0.5';
+
+        if (!prevNames.has(name)) {
+          li.classList.add('animate-item');     // 新規のみ
+        }
 
         const label = document.createElement('span');
         label.textContent = name;
