@@ -20,22 +20,24 @@
     <% end %>
   </p>
 
-  <ul class="space-y-2">
-    <% @packing_list.list_items.each do |item| %>
-      <li class="flex items-center gap-2">
-        <%= check_box_tag "checked_#{item.id}", "1", item.is_checked,
-              data: { item_id: item.id }, class: "item-check" %>
-        <span class="<%= 'line-through text-gray-400' if item.is_checked %>">
-          <%= item.item_name %>
-        </span>
-        <% item.source_labels.to_s.split(",").each do |label| %>
-          <span class="px-1.5 py-0.5 text-xs rounded text-gray-400">
-            <%= label %>
+  <div class="bg-white rounded-xl border border-gray-200 p-5">
+    <ul class="space-y-2">
+      <% @packing_list.list_items.each do |item| %>
+        <li class="flex items-center gap-2">
+          <%= check_box_tag "checked_#{item.id}", "1", item.is_checked,
+                data: { item_id: item.id }, class: "item-check" %>
+          <span class="<%= 'line-through text-gray-400' if item.is_checked %>">
+            <%= item.item_name %>
           </span>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
+          <% item.source_labels.to_s.split(",").each do |label| %>
+            <span class="px-1.5 py-0.5 text-xs rounded text-gray-400">
+              <%= label %>
+            </span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 </div>
 
 <script>

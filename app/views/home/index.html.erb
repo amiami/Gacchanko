@@ -21,155 +21,157 @@
 </style>
 
 <div class="max-w-2xl mx-auto px-4 py-6">
-  <h1 class="text-xl font-bold mb-1">今回はどんな外出？</h1>
-  <p class="text-sm text-gray-500 mb-4">
-    あてはまるキットを選ぶと、持ち物が組み上がります
-  </p>
-  <script type="application/json" id="kits-data">
-    <%= raw @kits_json %>
-  </script>
+  <div class="bg-white rounded-xl border border-gray-200 p-5">
+      <h1 class="text-xl font-bold mb-1">今回はどんな外出？</h1>
+      <p class="text-sm text-gray-500 mb-4">
+        あてはまるキットを選ぶと、持ち物が組み上がります
+      </p>
+    <script type="application/json" id="kits-data">
+      <%= raw @kits_json %>
+    </script>
 
-  <% @grouped.each do |category, kits| %>
-    <section class="mb-4">
-      <h2 class="text-sm text-gray-500 mb-2"><%= @labels[category] || category %></h2>
-      <div class="flex flex-wrap gap-2">
-        <% kits.each do |kit| %>
-          <button type="button"
-                  class="chip px-3 py-1.5 rounded-full border-2 border-gray-300 text-sm transition-colors
-                        hover:border-green-400 hover:bg-green-50"
-                  data-kit-id="<%= kit.id %>">
-            <%= kit.name %>
-          </button>
-        <% end %>
-      </div>
+    <% @grouped.each do |category, kits| %>
+      <section class="mb-4">
+        <h2 class="text-sm text-gray-500 mb-2"><%= @labels[category] || category %></h2>
+        <div class="flex flex-wrap gap-2">
+          <% kits.each do |kit| %>
+            <button type="button"
+                    class="chip px-3 py-1.5 rounded-full border-2 border-gray-300 text-sm transition-colors
+                          hover:border-green-400 hover:bg-green-50"
+                    data-kit-id="<%= kit.id %>">
+              <%= kit.name %>
+            </button>
+          <% end %>
+        </div>
+      </section>
+    <% end %>
+
+    <hr class="my-6">
+
+    <section>
+      <h2 class="text-lg font-bold mb-3">
+        持ちもの <span id="count" class="text-2xl text-green-700">0</span> 件
+      </h2>
+      <ul id="item-list" class="space-y-2"></ul>
     </section>
-  <% end %>
 
-  <hr class="my-6">
-
-  <section>
-    <h2 class="text-lg font-bold mb-3">
-      持ちもの <span id="count" class="text-2xl text-green-700">0</span> 件
-    </h2>
-    <ul id="item-list" class="space-y-2"></ul>
-  </section>
-
-  <%= form_with model: @packing_list, id: "save-form", class: "mt-6" do |f| %>
-    <div class="flex gap-2 items-end">
-      <div>
-        <label class="block text-sm text-gray-500">リスト名</label>
-        <%= f.text_field :name, required: true,
-              class: "border border-gray-300 rounded px-2 py-1" %>
+    <%= form_with model: @packing_list, id: "save-form", class: "mt-6" do |f| %>
+      <div class="flex gap-2 items-end">
+        <div>
+          <label class="block text-sm text-gray-500">リスト名</label>
+          <%= f.text_field :name, required: true,
+                class: "border border-gray-300 rounded px-2 py-1" %>
+        </div>
+        <div>
+          <label class="block text-sm text-gray-500">予定日</label>
+          <%= f.date_field :event_date,
+                class: "border border-gray-300 rounded px-2 py-1" %>
+        </div>
+        <%= f.submit "このリストを保存",
+              class: "bg-green-700 text-white rounded px-4 py-2 cursor-pointer" %>
       </div>
-      <div>
-        <label class="block text-sm text-gray-500">予定日</label>
-        <%= f.date_field :event_date,
-              class: "border border-gray-300 rounded px-2 py-1" %>
-      </div>
-      <%= f.submit "このリストを保存",
-            class: "bg-green-700 text-white rounded px-4 py-2 cursor-pointer" %>
-    </div>
-    <%= hidden_field_tag "packing_list[items_json]", nil, id: "items-json" %>
-  <% end %>
+      <%= hidden_field_tag "packing_list[items_json]", nil, id: "items-json" %>
+    <% end %>
 
-  <script>
-    const kits = JSON.parse(document.getElementById('kits-data').textContent);
-    const kitById = new Map(kits.map(k => [k.id, k]));
-    const selected = new Set();
-    
-
-    function compose() {
-      const map = new Map();
-      for (const id of selected) {
-        const kit = kitById.get(id);
-        for (const name of kit.items) {
-          if (!map.has(name)) map.set(name, []);
-          map.get(name).push(kit.name);
-        }
-      }
-      return map;
-    }
-
-    const excluded = new Set();   // 除外されたアイテム名
-
-    function updateCount() {
-      const map = compose();
-      const n = [...map.keys()].filter(name => !excluded.has(name)).length;
-      document.getElementById('count').textContent = n;
-    }
-
-    let prevNames = new Set();
-
-    function render() {
-      const map = compose();
-      const ul = document.getElementById('item-list');
-      ul.innerHTML = '';
-      for (const [name, sources] of map) {
-        const li = document.createElement('li');
-        li.className = 'flex items-center gap-2 py-0.5';
-
-        if (!prevNames.has(name)) {
-          li.classList.add('animate-item');     // 新規のみ
-        }
-
-        const label = document.createElement('span');
-        label.textContent = name;
-        if (excluded.has(name)) {
-          label.classList.add('line-through', 'text-gray-400');
-        }
-
-        const cb = document.createElement('input');
-        cb.type = 'checkbox';
-        cb.checked = !excluded.has(name);
-        cb.addEventListener('change', () => {
-          excluded.has(name) ? excluded.delete(name) : excluded.add(name);
-          label.classList.toggle('line-through', excluded.has(name));
-          label.classList.toggle('text-gray-400', excluded.has(name));
-          updateCount();
-        });
-
-        li.appendChild(cb);
-        li.appendChild(label);
-
-        for (const s of sources) {
-          const tag = document.createElement('span');
-          tag.className = 'px-1.5 py-0.5 text-xs rounded bg-gray-100 text-gray-600';
-          tag.textContent = s;
-          li.appendChild(tag);
-        }
-        ul.appendChild(li);
-      }
-      updateCount();
-    }
-
-    document.querySelectorAll('.chip').forEach(btn => {
+    <script>
+      const kits = JSON.parse(document.getElementById('kits-data').textContent);
+      const kitById = new Map(kits.map(k => [k.id, k]));
+      const selected = new Set();
       
-      btn.addEventListener('click', () => {
-        const id = Number(btn.dataset.kitId);
-        const wasOn = selected.has(id);
-        wasOn ? selected.delete(id) : selected.add(id);
 
-        btn.classList.toggle('is-selected', !wasOn);
-        btn.classList.toggle('bg-green-700', !wasOn);
-        btn.classList.toggle('text-white', !wasOn);
-        btn.classList.toggle('border-green-700', !wasOn);
-        btn.textContent = (!wasOn ? '✓ ' : '') + kitById.get(id).name;
-        render();
-      });
-    });
-
-    render();
-
-    document.getElementById('save-form').addEventListener('submit', () => {
-      const map = compose();
-      const payload = [];
-      for (const [name, sources] of map) {
-        if (excluded.has(name)) continue;
-        payload.push({ item_name: name, source_labels: sources.join(",") });
+      function compose() {
+        const map = new Map();
+        for (const id of selected) {
+          const kit = kitById.get(id);
+          for (const name of kit.items) {
+            if (!map.has(name)) map.set(name, []);
+            map.get(name).push(kit.name);
+          }
+        }
+        return map;
       }
-      document.getElementById('items-json').value = JSON.stringify(payload);
-    });
-  </script>
+
+      const excluded = new Set();   // 除外されたアイテム名
+
+      function updateCount() {
+        const map = compose();
+        const n = [...map.keys()].filter(name => !excluded.has(name)).length;
+        document.getElementById('count').textContent = n;
+      }
+
+      let prevNames = new Set();
+
+      function render() {
+        const map = compose();
+        const ul = document.getElementById('item-list');
+        ul.innerHTML = '';
+        for (const [name, sources] of map) {
+          const li = document.createElement('li');
+          li.className = 'flex items-center gap-2 py-0.5';
+
+          if (!prevNames.has(name)) {
+            li.classList.add('animate-item');     // 新規のみ
+          }
+
+          const label = document.createElement('span');
+          label.textContent = name;
+          if (excluded.has(name)) {
+            label.classList.add('line-through', 'text-gray-400');
+          }
+
+          const cb = document.createElement('input');
+          cb.type = 'checkbox';
+          cb.checked = !excluded.has(name);
+          cb.addEventListener('change', () => {
+            excluded.has(name) ? excluded.delete(name) : excluded.add(name);
+            label.classList.toggle('line-through', excluded.has(name));
+            label.classList.toggle('text-gray-400', excluded.has(name));
+            updateCount();
+          });
+
+          li.appendChild(cb);
+          li.appendChild(label);
+
+          for (const s of sources) {
+            const tag = document.createElement('span');
+            tag.className = 'px-1.5 py-0.5 text-xs rounded bg-gray-100 text-gray-600';
+            tag.textContent = s;
+            li.appendChild(tag);
+          }
+          ul.appendChild(li);
+        }
+        updateCount();
+      }
+
+      document.querySelectorAll('.chip').forEach(btn => {
+        
+        btn.addEventListener('click', () => {
+          const id = Number(btn.dataset.kitId);
+          const wasOn = selected.has(id);
+          wasOn ? selected.delete(id) : selected.add(id);
+
+          btn.classList.toggle('is-selected', !wasOn);
+          btn.classList.toggle('bg-green-700', !wasOn);
+          btn.classList.toggle('text-white', !wasOn);
+          btn.classList.toggle('border-green-700', !wasOn);
+          btn.textContent = (!wasOn ? '✓ ' : '') + kitById.get(id).name;
+          render();
+        });
+      });
+
+      render();
+
+      document.getElementById('save-form').addEventListener('submit', () => {
+        const map = compose();
+        const payload = [];
+        for (const [name, sources] of map) {
+          if (excluded.has(name)) continue;
+          payload.push({ item_name: name, source_labels: sources.join(",") });
+        }
+        document.getElementById('items-json').value = JSON.stringify(payload);
+      });
+    </script>
+  </div>
 </div>
 
 
