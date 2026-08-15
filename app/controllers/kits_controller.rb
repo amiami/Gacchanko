@@ -2,16 +2,16 @@ class KitsController < ApplicationController
   CATEGORIES = {
     "base" => "基本", "season" => "季節", "purpose" => "目的",
     "duration" => "日数", "weather" => "天気"
-}.freeze
+  }.freeze
 
-def index
-  @kits = Kit.includes(:kit_items).order(:category, :id)
-  @label = CATEGORIES
-end
+  def index
+    @kits = Kit.includes(:kit_items).order(:category, :id)
+    @labels = CATEGORIES
+  end
 
-def new
-    @kit = Kit.new
-    @categories = CATEGORIES
+  def new
+      @kit = Kit.new
+      @categories = CATEGORIES
   end
 
   def create
