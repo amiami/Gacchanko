@@ -1,0 +1,28 @@
+<div class="max-w-2xl mx-auto px-4 py-6">
+  <div class="flex items-center justify-between mb-4">
+    <h1 class="text-2xl font-bold">キット</h1>
+    <%= link_to "＋ 新しいキット", new_kit_path,
+          class: "bg-blue-600 text-white rounded px-3 py-1.5 text-sm" %>
+  </div>
+
+  <ul class="space-y-3">
+    <% @kits.each do |kit| %>
+      <li class="border border-gray-200 rounded p-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="font-bold"><%= kit.name %></span>
+            <span class="text-xs text-gray-500 ml-2">
+              <%= @labels[kit.category] || kit.category %>
+            </span>
+          </div>
+          <%= button_to "削除", kit, method: :delete,
+                form: { data: { turbo_confirm: "「#{kit.name}」を削除しますか？" } },
+                class: "text-sm text-red-600 underline" %>
+        </div>
+        <p class="text-sm text-gray-600 mt-1">
+          <%= kit.kit_items.map(&:item_name).join(" / ") %>
+        </p>
+      </li>
+    <% end %>
+  </ul>
+</div>
