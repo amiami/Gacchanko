@@ -8,7 +8,7 @@
       <% @packing_lists.each do |list| %>
         <li class="border border-gray-200 rounded p-3">
           <div class="flex items-center justify-between">
-            <%= link_to list.name, list, class: "font-bold text-blue-600 underline" %>
+            <%= link_to list.name, list, class: "font-bold text-green-700 underline" %>
             <span class="text-sm <%= list.completed? ? 'text-green-700' : 'text-gray-500' %>">
               <%= list.checked_count %>/<%= list.total_count %>
               <%= "完了" if list.completed? %>

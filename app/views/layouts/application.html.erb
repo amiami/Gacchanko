@@ -23,16 +23,16 @@
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
   </head>
 
-  <body>
-    <header class="border-b border-gray-200">
+  <body class="bg-[#faf8f3] min-h-screen">
+    <header class="bg-white border-b border-gray-20">
       <div class="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
         <%= link_to root_path, class: "text-lg font-bold" do %>
           持ち物リスト
         <% end %>
         <nav class="flex gap-4 text-sm">
-          <%= link_to "リストを作る", root_path, class: "text-blue-600 underline" %>
-          <%= link_to "キット", kits_path, class: "text-blue-600 underline" %>
-          <%= link_to "保存したリスト", packing_lists_path, class: "text-blue-600 underline" %>
+          <%= link_to "リストを作る", root_path, class: "text-green-700 underline" %>
+          <%= link_to "キット", kits_path, class: "text-green-700 underline" %>
+          <%= link_to "保存したリスト", packing_lists_path, class: "text-green-700 underline" %>
         </nav>
       </div>
     </header>
