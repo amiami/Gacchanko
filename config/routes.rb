@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   root "home#index"
   resources :packing_lists, only: [:index, :show, :create]
   resources :list_items, only: [:update]
+  resources :kits, only: [:index, :new, :create, :destroy]
 end
