@@ -5,17 +5,17 @@ class KitsController < ApplicationController
   }.freeze
 
   def index
-    @kits = Kit.includes(:kit_items).order(:category, :id)
+    @kits = current_user.kits.includes(:kit_items).order(:category, :id)
     @labels = CATEGORIES
   end
 
   def new
-      @kit = Kit.new
+      @kit = current_user.kits.build
       @categories = CATEGORIES
   end
 
   def create
-    @kit = Kit.new(kit_params.merge(select_type: "multi"))
+    @kit = current_user.kits.build(kit_params.merge(select_type: "multi"))
     items = parse_item_names
 
     if items.empty?
@@ -38,7 +38,7 @@ class KitsController < ApplicationController
   end
 
   def destroy
-    Kit.find(params[:id]).destroy!
+    current_user.find(params[:id]).destroy!
     redirect_to kits_path, notice: "キットを削除しました"
   end
 

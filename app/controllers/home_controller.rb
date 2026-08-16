@@ -6,7 +6,7 @@ class HomeController < ApplicationController
   }.freeze
 
   def index
-    @kits = Kit.includes(:kit_items).to_a
+    @kits = current_user.kits.includes(:kit_items).to_a
     @grouped = @kits.group_by(&:category)
                     .sort_by { |c, _| CATEGORY_ORDER.index(c) || 99 }
     @labels = CATEGORY_LABELS
@@ -14,6 +14,6 @@ class HomeController < ApplicationController
     @kits_json = @kits.map { |k|
       { id: k.id, name: k.name, items: k.kit_items.map(&:item_name) }
     }.to_json
-    @packing_list = PackingList.new
+    @packing_list = current_user.packing_lists.build
   end
 end

@@ -1,14 +1,14 @@
 class PackingListsController < ApplicationController
   def index
-  @packing_lists = PackingList.includes(:list_items).order(created_at: :desc)
+  @packing_lists = current_user.packing_lists.includes(:list_items).order(created_at: :desc)
 end
 
   def show
-    @packing_list = PackingList.includes(:list_items).find(params[:id])
+    @packing_list = current_user.packing_lists.includes(:list_items).find(params[:id])
   end
 
   def create
-    @packing_list = PackingList.new(packing_list_params)
+    @packing_list = current_user.packing_lists.build(packing_list_params)
     items = parse_items
 
     if items.empty?
