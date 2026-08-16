@@ -4,6 +4,9 @@ class User < ApplicationRecord
   has_many :kits, dependent: :destroy
   has_many :packing_lists, dependent: :destroy
 
+  validates :email_address, presence: true, uniqueness: true
+  validates :password, length: { minimum: 8 }, allow_nil: true
+
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
   DEFAULT_KITS = {
