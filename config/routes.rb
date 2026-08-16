@@ -11,4 +11,6 @@ Rails.application.routes.draw do
   resources :list_items, only: [ :update ]
   resources :kits, only: [ :index, :new, :create, :destroy ]
   resource :registration, only: [ :new, :create ]
+  
+  post "guest_login", to: "sessions#guest", as: :guest_login
 end
