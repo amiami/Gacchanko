@@ -24,7 +24,7 @@
   <div class="bg-white rounded-xl border border-gray-200 p-5">
       <h1 class="text-xl font-bold mb-1">今回はどんな外出？</h1>
       <p class="text-sm text-gray-500 mb-4">
-        あてはまるキットを選ぶと、持ち物が組み上がります
+        あてはまるシーンを選ぶと、持ち物が組み上がります
       </p>
     <script type="application/json" id="kits-data">
       <%= raw @kits_json %>
@@ -108,7 +108,7 @@
         ul.innerHTML = '';
 
         if (map.size === 0) {
-          ul.innerHTML = '<li class="text-gray-400 text-sm py-8 text-center">上のキットを選んでください</li>';
+          ul.innerHTML = '<li class="text-gray-400 text-sm py-8 text-center">上のシーンを選んでください</li>';
           prevNames = new Set();
           updateCount();
           return;
