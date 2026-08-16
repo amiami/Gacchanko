@@ -29,11 +29,15 @@
         <%= link_to root_path, class: "text-lg font-bold" do %>
           <%= image_tag "header_logo.png", alt: "がっちゃんこ", class: "h-8" %>
         <% end %>
-        <nav class="flex gap-4 text-sm">
-          <%= link_to "リストを作る", root_path, class: "text-green-700 underline" %>
-          <%= link_to "シーン", kits_path, class: "text-green-700 underline" %>
-          <%= link_to "保存したリスト", packing_lists_path, class: "text-green-700 underline" %>
-        </nav>
+        <% if current_user %>
+          <nav class="flex gap-4 text-sm">
+            <%= link_to "リストを作る", root_path, class: "text-green-700 underline" %>
+            <%= link_to "シーン", kits_path, class: "text-green-700 underline" %>
+            <%= link_to "保存したリスト", packing_lists_path, class: "text-green-700 underline" %>
+            <%= button_to "ログアウト", session_path, method: :delete,
+                class: "text-xs text-gray-500 hover:text-red-600" %>
+          </nav>
+        <% end %>
       </div>
     </header>
 
