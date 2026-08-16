@@ -30,16 +30,16 @@ class KitsController < ApplicationController
       items.each { |name| @kit.kit_items.create!(item_name: name) }
     end
 
-    redirect_to kits_path, notice: "キットを作成しました"
+    redirect_to kits_path, notice: "シーンを作成しました"
   rescue ActiveRecord::RecordInvalid
     @categories = CATEGORIES
-    flash.now[:alert] = "キット作成に失敗しました"
+    flash.now[:alert] = "シーン作成に失敗しました"
     render :new, status: :unprocessable_entity
   end
 
   def destroy
     current_user.kits.find(params[:id]).destroy!
-    redirect_to kits_path, notice: "キットを削除しました"
+    redirect_to kits_path, notice: "シーンを削除しました"
   end
 
   private
