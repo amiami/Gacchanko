@@ -38,7 +38,7 @@ class KitsController < ApplicationController
   end
 
   def destroy
-    current_user.find(params[:id]).destroy!
+    current_user.kits.find(params[:id]).destroy!
     redirect_to kits_path, notice: "キットを削除しました"
   end
 
