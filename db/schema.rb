@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_16_045619) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_16_050834) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -28,6 +28,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_16_045619) do
     t.string "name"
     t.string "select_type"
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_kits_on_user_id"
   end
 
   create_table "list_items", force: :cascade do |t|
@@ -45,6 +47,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_16_045619) do
     t.date "event_date"
     t.string "name"
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_packing_lists_on_user_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -65,6 +69,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_16_045619) do
   end
 
   add_foreign_key "kit_items", "kits"
+  add_foreign_key "kits", "users"
   add_foreign_key "list_items", "packing_lists"
+  add_foreign_key "packing_lists", "users"
   add_foreign_key "sessions", "users"
 end
