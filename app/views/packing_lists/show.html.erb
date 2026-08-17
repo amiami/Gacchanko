@@ -8,16 +8,21 @@
 </style>
 <div class="max-w-2xl mx-auto px-4 py-6">
   <h1 class="text-2xl font-bold"><%= @packing_list.name %></h1>
-  <p class="text-sm text-gray-500 mb-4 flex items-center gap-2">
-    <span>
-      <%= @packing_list.event_date&.strftime("%Y年%m月%d日") %>
-      / <span id="progress"><%= @packing_list.checked_count %></span>/<%= @packing_list.total_count %>
+  <p class="mb-4 flex items-center gap-2">
+    <span class="text-sm text-gray-500">
+      <% if @packing_list.event_date %>
+        <%= @packing_list.event_date&.strftime("%Y年%m月%d日") %>
+      <% end %>
     </span>
     <% if @packing_list.upcoming? && !@packing_list.completed? %>
       <span class="text-xs bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded">
         まもなく
       </span>
     <% end %>
+    <span class="inline-block justify-self-end">
+      <span id="progress" class="text-sm text-green-700"><%= @packing_list.checked_count %></span>
+      / <span class="text-sm text-gray-500"><%= @packing_list.total_count %></span>
+    </span>
   </p>
 
   <div class="bg-white rounded-xl border border-gray-200 p-5">
