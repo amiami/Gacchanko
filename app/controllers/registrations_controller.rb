@@ -11,7 +11,7 @@ class RegistrationsController < ApplicationController
     if @user.save
       @user.create_default_kits!
       start_new_session_for @user
-      redirect_to root_path, notice: "登録しました"
+      redirect_to home_path, notice: "登録しました"
     else
       render :new, status: :unprocessable_entity
     end

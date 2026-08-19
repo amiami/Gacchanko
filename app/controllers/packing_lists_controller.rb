@@ -12,7 +12,7 @@ end
     items = parse_items
 
     if items.empty?
-      redirect_to root_path, alert: "持ち物が選択されていません"
+      redirect_to home_path, alert: "持ち物が選択されていません"
       return
     end
 
@@ -29,7 +29,7 @@ end
 
     redirect_to @packing_list, notice: "保存しました"
   rescue ActiveRecord::RecordInvalid
-    redirect_to root_path, alert: "保存に失敗しました"
+    redirect_to home_path, alert: "保存に失敗しました"
   end
 
   private

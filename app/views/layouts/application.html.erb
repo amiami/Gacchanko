@@ -26,12 +26,12 @@
   <body class="bg-[#faf8f3] min-h-screen">
     <header class="bg-white border-b border-gray-20">
       <div class="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
-        <%= link_to root_path, class: "text-lg font-bold" do %>
+        <%= link_to home_path, class: "text-lg font-bold" do %>
           <%= image_tag "header_logo.png", alt: "がっちゃんこ", class: "h-8" %>
         <% end %>
         <% if current_user %>
           <nav class="flex gap-4 text-sm">
-            <%= link_to "リストを作る", root_path, class: "text-green-700 underline" %>
+            <%= link_to "リストを作る", home_path, class: "text-green-700 underline" %>
             <%= link_to "シーン", kits_path, class: "text-green-700 underline" %>
             <%= link_to "保存したリスト", packing_lists_path, class: "text-green-700 underline" %>
             <%= button_to "ログアウト", session_path, method: :delete,
