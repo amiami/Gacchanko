@@ -1,0 +1,21 @@
+<header class="bg-white border-b border-gray-20">
+  <div class="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
+    <%= link_to root_path, class: "text-lg font-bold" do %>
+      <%= image_tag "header_logo.png", alt: "がっちゃんこ", class: "h-9" %>
+    <% end %>
+    <% if current_user %>
+      <nav class="flex gap-4 text-sm">
+        <%= link_to "リストを作る", home_path, class: "text-teal-600 hover:underline" %>
+        <%= link_to "シーン", kits_path, class: "text-teal-600 hover:underline" %>
+        <%= link_to "保存したリスト", packing_lists_path, class: "text-teal-600 hover:underline" %>
+        <%= button_to "ログアウト", session_path, method: :delete,
+            class: "text-xs text-gray-500 hover:text-red-600" %>
+      </nav>
+    <% else %>
+      <nav class="flex gap-4 text-sm">
+        <%= link_to "新規登録", new_registration_path, class: "bg-teal-600 text-white rounded px-4 py-2 cursor-pointer" %>
+        <%= link_to "ログイン", new_session_path, class: "bg-teal-600 text-white rounded px-4 py-2 cursor-pointer" %>
+      </nav>
+    <% end %>
+  </div>
+</header>
