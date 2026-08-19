@@ -1,6 +1,6 @@
 <style>
   input[type="checkbox"] {
-    accent-color: #15803d;
+    accent-color: #009689;
     width: 16px;
     height: 16px;
     cursor: pointer;
@@ -20,7 +20,7 @@
       </span>
     <% end %>
     <span class="inline-block justify-self-end">
-      <span id="progress" class="text-sm text-green-700"><%= @packing_list.checked_count %></span>
+      <span id="progress" class="text-sm text-teal-600"><%= @packing_list.checked_count %></span>
       / <span class="text-sm text-gray-500"><%= @packing_list.total_count %></span>
     </span>
   </p>

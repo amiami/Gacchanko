@@ -3,8 +3,8 @@
 </script>
 <style>
   .chip.is-selected:hover {
-    background-color: #166534;
-    border-color: #166534;
+    background-color: #009689;
+    border-color: #009689;
   }
   @keyframes slideIn {
     from { opacity: 0; transform: translateX(-8px); background: #dcfce7; }
@@ -13,7 +13,7 @@
   .animate-item { animation: slideIn 0.35s ease-out; }
 
   input[type="checkbox"] {
-    accent-color: #15803d;
+    accent-color: #009689;
     width: 16px;
     height: 16px;
     cursor: pointer;
@@ -50,7 +50,7 @@
 
     <section>
       <h2 class="text-lg font-bold mb-3">
-        持ちもの <span id="count" class="text-2xl text-green-700">0</span> 件
+        持ちもの <span id="count" class="text-2xl text-teal-600">0</span> 件
       </h2>
       <ul id="item-list" class="space-y-2"></ul>
     </section>
@@ -69,7 +69,7 @@
                 class: "border border-gray-300 rounded px-2 py-1" %>
         </div>
         <%= f.submit "このリストを保存",
-              class: "bg-green-700 text-white rounded px-4 py-2 cursor-pointer" %>
+              class: "bg-teal-600 text-white rounded px-4 py-2 cursor-pointer" %>
       </div>
       <%= hidden_field_tag "packing_list[items_json]", nil, id: "items-json" %>
     <% end %>
@@ -161,9 +161,9 @@
           wasOn ? selected.delete(id) : selected.add(id);
 
           btn.classList.toggle('is-selected', !wasOn);
-          btn.classList.toggle('bg-green-700', !wasOn);
+          btn.classList.toggle('bg-teal-600', !wasOn);
           btn.classList.toggle('text-white', !wasOn);
-          btn.classList.toggle('border-green-700', !wasOn);
+          btn.classList.toggle('border-teal-600', !wasOn);
           btn.textContent = (!wasOn ? '✓ ' : '') + kitById.get(id).name;
           render();
         });
