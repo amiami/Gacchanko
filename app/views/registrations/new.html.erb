@@ -19,7 +19,7 @@
 
       <div class="mb-4">
         <%= f.label :password, "パスワード", class: "block text-sm text-gray-500" %>
-        <%= f.password_field :password, required: true,
+        <%= f.password_field :password, required: true, placeholder: "8文字以上",
               class: "border border-gray-300 rounded px-2 py-1 w-full" %>
       </div>
 
@@ -30,11 +30,11 @@
       </div>
 
       <%= f.submit "登録する",
-            class: "bg-green-700 text-white rounded px-4 py-2 cursor-pointer w-full" %>
+            class: "bg-teal-600 text-white rounded px-4 py-2 cursor-pointer w-full" %>
     <% end %>
 
     <p class="text-sm text-gray-500 mt-4 text-center">
-      <%= link_to "ログインはこちら", new_session_path, class: "text-green-700 underline" %>
+      <%= link_to "ログインはこちら", new_session_path, class: "text-teal-600 underline" %>
     </p>
   </div>
 </div>

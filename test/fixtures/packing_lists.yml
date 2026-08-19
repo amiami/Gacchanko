@@ -3,7 +3,9 @@
 one:
   name: MyString
   event_date: 2026-08-12
+  user: one
 
 two:
   name: MyString
   event_date: 2026-08-12
+  user: two

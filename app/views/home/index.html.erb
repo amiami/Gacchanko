@@ -3,8 +3,8 @@
 </script>
 <style>
   .chip.is-selected:hover {
-    background-color: #166534;
-    border-color: #166534;
+    background-color: #009689;
+    border-color: #009689;
   }
   @keyframes slideIn {
     from { opacity: 0; transform: translateX(-8px); background: #dcfce7; }
@@ -13,18 +13,18 @@
   .animate-item { animation: slideIn 0.35s ease-out; }
 
   input[type="checkbox"] {
-    accent-color: #15803d;
+    accent-color: #009689;
     width: 16px;
     height: 16px;
     cursor: pointer;
   }
 </style>
 
-<div class="max-w-2xl mx-auto px-4 py-6">
+<div class="max-w-2xl mx-auto px-4 pt-6 pb-[76px] sm:py-6">
   <div class="bg-white rounded-xl border border-gray-200 p-5">
-      <h1 class="text-xl font-bold mb-1">今回はどんな外出？</h1>
+      <h1 class="text-xl font-bold mb-1">今回はどんなお出かけ？</h1>
       <p class="text-sm text-gray-500 mb-4">
-        あてはまるシーンを選ぶと、持ち物が組み上がります
+        あてはまるシーンを選ぶだけで、持ち物リストが完成します
       </p>
     <script type="application/json" id="kits-data">
       <%= raw @kits_json %>
@@ -50,26 +50,26 @@
 
     <section>
       <h2 class="text-lg font-bold mb-3">
-        持ちもの <span id="count" class="text-2xl text-green-700">0</span> 件
+        持ち物 <span id="count" class="text-2xl text-teal-600">0</span> 件
       </h2>
       <ul id="item-list" class="space-y-2"></ul>
     </section>
 
     <%= form_with model: @packing_list, id: "save-form",
         class: "mt-6 pt-4 border-t border-gray-200" do |f| %>
-      <div class="flex gap-2 items-end">
-        <div>
+      <div class="flex flex-wrap gap-2 items-end">
+        <div class="w-full sm:w-auto">
           <label class="block text-sm text-gray-500">リスト名</label>
           <%= f.text_field :name, required: true,
-                class: "border border-gray-300 rounded px-2 py-1" %>
+                class: "w-full border border-gray-300 rounded px-2 py-1" %>
         </div>
-        <div>
+        <div class="w-full sm:w-auto">
           <label class="block text-sm text-gray-500">イベント日</label>
           <%= f.date_field :event_date,
-                class: "border border-gray-300 rounded px-2 py-1" %>
+                class: "w-full border border-gray-300 rounded px-2 py-1" %>
         </div>
-        <%= f.submit "このリストを保存",
-              class: "bg-green-700 text-white rounded px-4 py-2 cursor-pointer" %>
+        <%= f.submit "持ち物リストを保存",
+              class: "grow bg-teal-600 text-white rounded px-4 py-2 cursor-pointer" %>
       </div>
       <%= hidden_field_tag "packing_list[items_json]", nil, id: "items-json" %>
     <% end %>
@@ -161,9 +161,9 @@
           wasOn ? selected.delete(id) : selected.add(id);
 
           btn.classList.toggle('is-selected', !wasOn);
-          btn.classList.toggle('bg-green-700', !wasOn);
+          btn.classList.toggle('bg-teal-600', !wasOn);
           btn.classList.toggle('text-white', !wasOn);
-          btn.classList.toggle('border-green-700', !wasOn);
+          btn.classList.toggle('border-teal-600', !wasOn);
           btn.textContent = (!wasOn ? '✓ ' : '') + kitById.get(id).name;
           render();
         });

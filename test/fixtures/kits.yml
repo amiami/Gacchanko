@@ -4,8 +4,10 @@ one:
   name: MyString
   category: MyString
   select_type: MyString
+  user: one
 
 two:
   name: MyString
   category: MyString
   select_type: MyString
+  user: two

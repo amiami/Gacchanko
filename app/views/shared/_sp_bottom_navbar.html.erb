@@ -1,0 +1,15 @@
+<% if current_user %>
+  <nav class="fixed border-t bg-[#faf8f3] bottom-0 left-0 right-0 sm:hidden">
+    <ul class="grid grid-cols-3 divide-x">
+      <li class="text-center">
+        <%= link_to "作る", home_path, class: "block py-4 text-teal-600" %>
+      </li>
+      <li class="text-center">
+        <%= link_to "シーン", kits_path, class: "block py-4 text-teal-600" %>
+      </li>
+      <li class="text-center">
+        <%= link_to "持ち物リスト", packing_lists_path, class: "block py-4 text-teal-600" %>
+      </li>
+    </ul>
+  </nav>
+<% end %>
