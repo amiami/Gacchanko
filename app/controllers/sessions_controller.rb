@@ -20,11 +20,11 @@ class SessionsController < ApplicationController
     end
     user.create_default_kits! if user.kits.empty?
     start_new_session_for user
-    redirect_to root_path, notice: "ゲストとしてログインしました"
+    redirect_to home_path, notice: "ゲストとしてログインしました"
   end
 
   def destroy
     terminate_session
-    redirect_to new_session_path, status: :see_other
+    redirect_to root_path, status: :see_other
   end
 end
