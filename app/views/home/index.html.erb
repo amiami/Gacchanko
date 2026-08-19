@@ -24,7 +24,7 @@
   <div class="bg-white rounded-xl border border-gray-200 p-5">
       <h1 class="text-xl font-bold mb-1">今回はどんな外出？</h1>
       <p class="text-sm text-gray-500 mb-4">
-        あてはまるシーンを選ぶと、持ち物が組み上がります
+        あてはまるシーンを選ぶだけで、持ち物リストが完成します
       </p>
     <script type="application/json" id="kits-data">
       <%= raw @kits_json %>
@@ -50,7 +50,7 @@
 
     <section>
       <h2 class="text-lg font-bold mb-3">
-        持ちもの <span id="count" class="text-2xl text-teal-600">0</span> 件
+        持ち物 <span id="count" class="text-2xl text-teal-600">0</span> 件
       </h2>
       <ul id="item-list" class="space-y-2"></ul>
     </section>
@@ -68,7 +68,7 @@
           <%= f.date_field :event_date,
                 class: "w-full border border-gray-300 rounded px-2 py-1" %>
         </div>
-        <%= f.submit "このリストを保存",
+        <%= f.submit "持ち物リストを保存",
               class: "grow bg-teal-600 text-white rounded px-4 py-2 cursor-pointer" %>
       </div>
       <%= hidden_field_tag "packing_list[items_json]", nil, id: "items-json" %>

@@ -5,9 +5,9 @@
     <% end %>
     <% if current_user %>
       <nav class="flex gap-4 text-sm">
-        <%= link_to "リストを作る", home_path, class: "hidden sm:block text-teal-600 hover:underline" %>
+        <%= link_to "作る", home_path, class: "hidden sm:block text-teal-600 hover:underline" %>
         <%= link_to "シーン", kits_path, class: "hidden sm:block text-teal-600 hover:underline" %>
-        <%= link_to "保存したリスト", packing_lists_path, class: "hidden sm:block text-teal-600 hover:underline" %>
+        <%= link_to "持ち物リスト", packing_lists_path, class: "hidden sm:block text-teal-600 hover:underline" %>
         <%= button_to "ログアウト", session_path, method: :delete,
             class: "text-xs text-gray-500 hover:text-red-600" %>
       </nav>
