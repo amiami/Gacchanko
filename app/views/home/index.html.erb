@@ -20,7 +20,7 @@
   }
 </style>
 
-<div class="max-w-2xl mx-auto px-4 py-6">
+<div class="max-w-2xl mx-auto px-4 pt-6 pb-[76px] sm:py-6">
   <div class="bg-white rounded-xl border border-gray-200 p-5">
       <h1 class="text-xl font-bold mb-1">今回はどんな外出？</h1>
       <p class="text-sm text-gray-500 mb-4">
@@ -63,10 +63,10 @@
           <%= f.text_field :name, required: true,
                 class: "w-full border border-gray-300 rounded px-2 py-1" %>
         </div>
-        <div class="">
+        <div class="w-full sm:w-auto">
           <label class="block text-sm text-gray-500">イベント日</label>
           <%= f.date_field :event_date,
-                class: "border border-gray-300 rounded px-2 py-1" %>
+                class: "w-full border border-gray-300 rounded px-2 py-1" %>
         </div>
         <%= f.submit "このリストを保存",
               class: "grow bg-teal-600 text-white rounded px-4 py-2 cursor-pointer" %>
